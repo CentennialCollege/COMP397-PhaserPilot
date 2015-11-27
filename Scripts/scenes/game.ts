@@ -1,23 +1,30 @@
 module scenes {
-	export class Game {
+	export class Game extends Phaser.Game {
 		// Instance Variables
-		public game: Phaser.Game;
-
+		ocean:objects.Ocean;
+		plane:objects.Plane;
 		constructor() {
-			this.game = new Phaser.Game(640, 480, Phaser.AUTO, 'content', { preload: this.preload, create: this.create });
+			super(640, 480, Phaser.AUTO, 'content', { preload: this.preload, create: this.create });
 
 		}
 
-
-
 		public preload(): void {
-			this.game.load.image('logo', '../Assets/images/Phaser-Logo-Small.png');
+			this.load.image('ocean', '../Assets/images/ocean.gif');
+			this.load.image('plane', '../Assets/images/plane.png');
+			this.load.audio('engine', '../Assets/sounds/engine.ogg');
 		}
 
 		public create(): void {
-			var logo = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'logo');
-			logo.anchor.setTo(0.5, 0.5);
+			this.ocean = new objects.Ocean(this, 0, 0, 'ocean');
+			this.add.existing(this.ocean);
+			
+			this.plane = new objects.Plane(this, 0, 0, 'plane', 'engine');
+			this.add.existing(this.plane);
+					
+			//this.logo = this.add.sprite(this.world.centerX, this.world.centerY, 'logo');
+			//this.logo.anchor.setTo(0.5, 0.5);
 		}
+		
 
 	}
 }
